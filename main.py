@@ -3,11 +3,11 @@ import torch
 import time
 import threading
 from tkinter import Tk, Label, Entry, Button, Text, Scrollbar, Y, RIGHT, END, StringVar, IntVar, Checkbutton
-from transformers import GPTNeoForCausalLM, GPT2Tokenizer, AutoTokenizer, AutoModelForCausalLM
+from transformers import GPTNeoForCausalLM, GPT2Tokenizer, AutoTokenizer, AutoModelForCausalLM, AutoConfig
 from llama_cpp import Llama
 
 # Llama Model
-llm = Llama(model_path="C:\\Users\\Shadow\\ggml-vicuna-7b-4bit\\ggml-vicuna-7b-4bit-rev1.bin")
+llm = Llama(model_path="D:\\ggml-vicuna-7b-4bit\\ggml-vicuna-7b-4bit-rev1.bin")
 
 def llama_generate(prompt, max_tokens=200):
     output = llm(prompt, max_tokens=max_tokens)
@@ -24,7 +24,8 @@ model.config.pad_token_id = tokenizer.pad_token_id
 # Falcon-7B Model
 falcon_model_name = "tiiuae/falcon-7b"
 falcon_tokenizer = AutoTokenizer.from_pretrained(falcon_model_name)
-falcon_model = AutoModelForCausalLM.from_pretrained(falcon_model_name).to(device)
+falcon_model = AutoModelForCausalLM.from_pretrained(falcon_model_name, trust_remote_code=True).to(device)
+
 
 # Generate Response
 def generate_response(input_text, use_llama=True, use_gpt_neo=True, use_falcon=True):
